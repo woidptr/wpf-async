@@ -20,4 +20,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
+
+    private void Search_Click(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Search button clicked");
+    }
 }

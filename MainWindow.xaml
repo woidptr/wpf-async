@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <TextBox Name="CityName" Width="200" Height="30"/>
+        <Button Name="Search" Click="Search_Click" Width="100" Height="30" Grid.Row="1">Search</Button>
+
+        <StackPanel Grid.Row="2" Margin="10" HorizontalAlignment="Center">
+            <TextBlock x:Name="TemperatureText" FontSize="20" FontWeight="Bold"/>
+            <TextBlock x:Name="HumidityText" FontSize="14"/>
+        </StackPanel>
     </Grid>
 </Window>
