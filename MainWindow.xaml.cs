@@ -25,8 +25,8 @@ public partial class MainWindow : Window
     {
         string city = CityName.Text;
 
-        WeatherInfo weatherInfo = await WeatherHandler.GetWeatherInfo(city);
+        WeatherStruct weather = await WeatherHandler.GetWeatherInfo(city);
 
-        TemperatureText.Text = string.Format("Temperature: {0:N2}", weatherInfo.temp);
+        TemperatureText.Text = string.Format("Temperature: {0:N2}", weather.main.temp);
     }
 }

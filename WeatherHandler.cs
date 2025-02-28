@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -8,7 +10,12 @@ using System.Threading.Tasks;
 
 namespace WeatherDashboard
 {
-    struct WeatherInfo
+    struct WeatherStruct
+    {
+        public WeatherMain main { get; set; }
+    }
+
+    struct WeatherMain
     {
         public float temp { get; set; }
         public int humidity { get; set; }
@@ -19,19 +26,22 @@ namespace WeatherDashboard
         private const string API_KEY = "d2f5cf6ce7a811cb427a742f356dac66";
         private const string baseUrl = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units=metric";
 
-        public static async Task<WeatherInfo> GetWeatherInfo(string city)
+        public static async Task<WeatherStruct> GetWeatherInfo(string city)
         {
-            HttpClient client = new HttpClient();
-
             string url = string.Format(baseUrl, city, API_KEY);
 
+            HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
 
             string jsonResponse = await response.Content.ReadAsStringAsync();
 
-            WeatherInfo weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(jsonResponse);
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonResponse));
 
-            return weatherInfo;
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; 
+
+            WeatherStruct weather = await JsonSerializer.DeserializeAsync<WeatherStruct>(stream, options);
+
+            return weather;
         }
     }
 }
