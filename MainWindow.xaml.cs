@@ -21,8 +21,12 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void Search_Click(object sender, RoutedEventArgs e)
+    private async void Search_Click(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine("Search button clicked");
+        string city = CityName.Text;
+
+        WeatherInfo weatherInfo = await WeatherHandler.GetWeatherInfo(city);
+
+        TemperatureText.Text = string.Format("Temperature: {0:N2}", weatherInfo.temp);
     }
 }
