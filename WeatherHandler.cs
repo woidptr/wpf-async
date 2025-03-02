@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace WeatherDashboard
@@ -18,6 +19,9 @@ namespace WeatherDashboard
     struct WeatherMain
     {
         public float temp { get; set; }
+        [JsonPropertyName("feels_like")]
+        public float feelsLike { get; set; }
+        public int pressure { get; set; }
         public int humidity { get; set; }
     }
 
@@ -39,6 +43,8 @@ namespace WeatherDashboard
             }
 
             string jsonResponse = await response.Content.ReadAsStringAsync();
+
+            Trace.WriteLine(jsonResponse);
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonResponse));
             JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
