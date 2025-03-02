@@ -9,9 +9,9 @@ using System;
 using System.Threading.Tasks;
 
 class TestClass {
-	public static async Task<string> doAsyncWork() {
-		return "Hello, World!"
-	}
+    public static async Task<string> doAsyncWork() {
+        return "Hello, World!"
+    }
 }
 ```
 
@@ -21,14 +21,14 @@ using System;
 using System.Threading.Tasks;
 
 class TestClass {
-	public static async Task<string> doAsyncWork(string name) {
-		string greetings = await TestClass.getGreetings();
+    public static async Task<string> doAsyncWork(string name) {
+        string greetings = await TestClass.getGreetings();
 
-		return string.Format(greetings, name);
-	}
+        return string.Format(greetings, name);
+    }
 
-	public static async Task<string> getGreetings() {
-		return "Hello, {0}!"
-	}
+    public static async Task<string> getGreetings() {
+        return "Hello, {0}!"
+    }
 }
 ```
