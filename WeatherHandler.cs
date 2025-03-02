@@ -33,11 +33,15 @@ namespace WeatherDashboard
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
 
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Failed to fetch information");
+            }
+
             string jsonResponse = await response.Content.ReadAsStringAsync();
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonResponse));
-
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; 
+            JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
             WeatherStruct weather = await JsonSerializer.DeserializeAsync<WeatherStruct>(stream, options);
 

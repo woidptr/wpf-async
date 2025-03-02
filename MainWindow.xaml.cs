@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,8 +26,16 @@ public partial class MainWindow : Window
     {
         string city = CityName.Text;
 
-        WeatherStruct weather = await WeatherHandler.GetWeatherInfo(city);
+        try
+        {
+            WeatherStruct weather = await WeatherHandler.GetWeatherInfo(city);
 
-        TemperatureText.Text = string.Format("Temperature: {0:N2}", weather.main.temp);
+            CityNameText.Text = city;
+            TemperatureText.Text = string.Format("Temperature: {0:N2}", weather.main.temp);
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine("Error!");
+        }
     }
 }
