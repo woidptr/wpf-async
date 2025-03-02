@@ -36,6 +36,14 @@ public partial class MainWindow : Window
             FeelsLikeText.Text = string.Format("Feels like: {0}", weather.main.feelsLike);
             HumidityText.Text = string.Format("Humidity: {0}", weather.main.humidity);
 
+            string currentTime = WeatherHandler.ConvertTime(weather.datetime, weather.timezoneOffset);
+            CurrentTimeText.Text = string.Format("Current time in {0}: {1}", weather.name, currentTime);
+
+            string sunriseTime = WeatherHandler.ConvertTime(weather.sys.sunrise, weather.timezoneOffset);
+            SunriseTimeText.Text = string.Format("Sunrise time in {0}: {1}", weather.name, sunriseTime);
+
+            string sunsetTime = WeatherHandler.ConvertTime(weather.sys.sunset, weather.timezoneOffset);
+            SunsetTimeText.Text = string.Format("Sunset time in {0}: {1}", weather.name, sunsetTime);
         }
         catch (Exception ex)
         {

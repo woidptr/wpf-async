@@ -29,6 +29,12 @@
                            Foreground="White" HorizontalAlignment="Center"/>
                 <TextBlock x:Name="HumidityText" FontSize="16" FontWeight="Bold"
                            Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="CurrentTimeText" FontSize="16" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="SunriseTimeText" FontSize="16" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="SunsetTimeText" FontSize="16" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
     </Grid>

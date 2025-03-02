@@ -14,6 +14,12 @@ namespace WeatherDashboard
     struct WeatherStruct
     {
         public WeatherMain main { get; set; }
+        [JsonPropertyName("dt")]
+        public long datetime { get; set; }
+        public WeatherSys sys { get; set; }
+        [JsonPropertyName("timezone")]
+        public int timezoneOffset { get; set; }
+        public string name { get; set; }
     }
 
     struct WeatherMain
@@ -23,6 +29,12 @@ namespace WeatherDashboard
         public float feelsLike { get; set; }
         public int pressure { get; set; }
         public int humidity { get; set; }
+    }
+
+    struct WeatherSys
+    {
+        public long sunrise { get; set; }
+        public long sunset { get; set; }
     }
 
     class WeatherHandler
@@ -52,6 +64,18 @@ namespace WeatherDashboard
             WeatherStruct weather = await JsonSerializer.DeserializeAsync<WeatherStruct>(stream, options);
 
             return weather;
+        }
+
+        public static string ConvertTime(long datetime, int offset)
+        {
+            DateTimeOffset utcDateTime = DateTimeOffset.FromUnixTimeSeconds(datetime);
+
+            TimeSpan utcOffset = TimeSpan.FromSeconds(offset);
+            DateTimeOffset localDateTime = utcDateTime.ToOffset(utcOffset);
+
+            string formattedTime = localDateTime.ToString("HH:mm:ss");
+
+            return formattedTime;
         }
     }
 }
