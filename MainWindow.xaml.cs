@@ -10,6 +10,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WeatherDashboard.Models;
+using WeatherDashboard.Services;
 
 namespace WeatherDashboard;
 
@@ -18,9 +20,13 @@ namespace WeatherDashboard;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly WeatherService _weatherService;
+
     public MainWindow()
     {
         InitializeComponent();
+
+        this._weatherService = new WeatherService();
     }
 
     private async void Search_Click(object sender, RoutedEventArgs e)
@@ -29,21 +35,21 @@ public partial class MainWindow : Window
 
         try
         {
-            WeatherStruct weather = await WeatherHandler.GetWeatherInfo(city);
+            WeatherModel weather = await _weatherService.GetWeatherInfo(city);
 
             CityNameText.Text = city;
             TemperatureText.Text = string.Format("Temperature: {0:N2}", weather.main.temp);
-            FeelsLikeText.Text = string.Format("Feels like: {0}", weather.main.feelsLike);
-            HumidityText.Text = string.Format("Humidity: {0}", weather.main.humidity);
+            FeelsLikeText.Text = $"Feels like: {weather.main.feelsLike}";
+            HumidityText.Text = $"Humidity: {weather.main.humidity}";
 
-            string currentTime = WeatherHandler.ConvertTime(weather.datetime, weather.timezoneOffset);
-            CurrentTimeText.Text = string.Format("Current time in {0}: {1}", weather.name, currentTime);
+            string currentTime = _weatherService.ConvertTime(weather.datetime, weather.timezoneOffset);
+            CurrentTimeText.Text = $"Current time in {weather.name}: {currentTime}";
 
-            string sunriseTime = WeatherHandler.ConvertTime(weather.sys.sunrise, weather.timezoneOffset);
-            SunriseTimeText.Text = string.Format("Sunrise time in {0}: {1}", weather.name, sunriseTime);
+            string sunriseTime = _weatherService.ConvertTime(weather.sys.sunrise, weather.timezoneOffset);
+            SunriseTimeText.Text = $"Sunrise time in {weather.name}: {sunriseTime}";
 
-            string sunsetTime = WeatherHandler.ConvertTime(weather.sys.sunset, weather.timezoneOffset);
-            SunsetTimeText.Text = string.Format("Sunset time in {0}: {1}", weather.name, sunsetTime);
+            string sunsetTime = _weatherService.ConvertTime(weather.sys.sunset, weather.timezoneOffset);
+            SunsetTimeText.Text = $"Sunset time in {weather.name}: {sunsetTime}";
         }
         catch (Exception ex)
         {
