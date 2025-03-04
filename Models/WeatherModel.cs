@@ -10,6 +10,7 @@ namespace WeatherDashboard.Models
     public class WeatherModel
     {
         public WeatherMain main { get; set; }
+        [JsonPropertyName("dt")]
         public long datetime { get; set; }
         public WeatherSys sys { get; set; }
         [JsonPropertyName("timezone")]

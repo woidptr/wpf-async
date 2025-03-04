@@ -31,10 +31,17 @@
                            Foreground="White" HorizontalAlignment="Center"/>
                 <TextBlock x:Name="CurrentTimeText" FontSize="16" FontWeight="Bold"
                            Foreground="White" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="SunriseTimeText" FontSize="16" FontWeight="Bold"
-                           Foreground="White" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="SunsetTimeText" FontSize="16" FontWeight="Bold"
-                           Foreground="White" HorizontalAlignment="Center"/>
+                <Canvas Name="SunCanvas" Visibility="Collapsed">
+                    <Line Name="DayLine" X1="0" Y1="100" X2="300" Y2="100"
+                          Stroke="Orange" StrokeThickness="4"
+                          StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Ellipse Name="Sun" Width="20" Height="20" Fill="Yellow"
+                             Stroke="Black" StrokeThickness="1"/>
+                    <TextBlock Name="SunriseText" Foreground="White" FontSize="14"
+                               Canvas.Left="0" Canvas.Top="110"/>
+                    <TextBlock Name="SunsetText" Foreground="White" FontSize="14"
+                               Canvas.Left="270" Canvas.Top="110"/>
+                </Canvas>
             </StackPanel>
         </Border>
     </Grid>

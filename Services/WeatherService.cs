@@ -53,7 +53,7 @@ namespace WeatherDashboard.Services
             TimeSpan utcOffset = TimeSpan.FromSeconds(offset);
             DateTimeOffset localDateTime = utcDateTime.ToOffset(utcOffset);
 
-            string formattedTime = localDateTime.ToString("HH:mm:ss");
+            string formattedTime = localDateTime.ToString("HH:mm");
 
             return formattedTime;
         }

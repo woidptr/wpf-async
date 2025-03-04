@@ -29,6 +29,33 @@ public partial class MainWindow : Window
         this._weatherService = new WeatherService();
     }
 
+    // cpu-bound
+    private void UpdateSunPosition(long sunriseUnix, long sunsetUnix, long currentUnix)
+    {
+        bool isDaytime = currentUnix > sunriseUnix && currentUnix < sunsetUnix;
+
+        if (!isDaytime)
+        {
+            DayLine.Stroke = new SolidColorBrush(Color.FromRgb(170, 170, 200));
+            Sun.Visibility = Visibility.Collapsed;
+        }
+
+        // Ensure current time is within bounds
+        currentUnix = Math.Max(sunriseUnix, Math.Min(currentUnix, sunsetUnix));
+
+        // Calculate progress of the sun across the day
+        double progress = (double)(currentUnix - sunriseUnix) / (sunsetUnix - sunriseUnix);
+
+        // Define the X-axis range
+        double startX = 0;  // Start of the line
+        double endX = 300;   // End of the line
+        double sunX = startX + progress * (endX - startX);
+
+        // Position the sun
+        Canvas.SetLeft(Sun, sunX - Sun.Width / 2);
+        Canvas.SetTop(Sun, 100 - Sun.Height / 2); // Keep Y constant
+    }
+
     private async void Search_Click(object sender, RoutedEventArgs e)
     {
         string city = CityName.Text;
@@ -37,19 +64,23 @@ public partial class MainWindow : Window
         {
             WeatherModel weather = await _weatherService.GetWeatherInfo(city);
 
-            CityNameText.Text = city;
+            CityNameText.Text = weather.name;
             TemperatureText.Text = string.Format("Temperature: {0:N2}", weather.main.temp);
             FeelsLikeText.Text = $"Feels like: {weather.main.feelsLike}";
             HumidityText.Text = $"Humidity: {weather.main.humidity}";
 
+            UpdateSunPosition(weather.sys.sunrise, weather.sys.sunset, weather.datetime);
+
             string currentTime = _weatherService.ConvertTime(weather.datetime, weather.timezoneOffset);
             CurrentTimeText.Text = $"Current time in {weather.name}: {currentTime}";
 
+            SunCanvas.Visibility = Visibility.Visible;
+
             string sunriseTime = _weatherService.ConvertTime(weather.sys.sunrise, weather.timezoneOffset);
-            SunriseTimeText.Text = $"Sunrise time in {weather.name}: {sunriseTime}";
+            SunriseText.Text = sunriseTime;
 
             string sunsetTime = _weatherService.ConvertTime(weather.sys.sunset, weather.timezoneOffset);
-            SunsetTimeText.Text = $"Sunset time in {weather.name}: {sunsetTime}";
+            SunsetText.Text = sunsetTime;
         }
         catch (Exception ex)
         {
