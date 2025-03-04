@@ -35,7 +35,7 @@ namespace WeatherDashboard.Services
 
             string jsonResponse = await response.Content.ReadAsStringAsync();
 
-            Trace.WriteLine(jsonResponse);
+            // Trace.WriteLine(jsonResponse);
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonResponse));
             JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
